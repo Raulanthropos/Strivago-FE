@@ -94,7 +94,8 @@ function Home() {
         <td>{accommodation.name}</td>
         <td>{accommodation.description}</td>
         <td>{accommodation.maxGuests}</td>
-        <td>{accommodation.image ? <img src={accommodation.image} alt="Accommodation" /> : ""}</td>
+        <td>{accommodation.image ? <img src={accommodation.image} alt="Accommodation" width="200" height="150" /> : ""}</td>
+
       </tr>
     ))}
 </tbody>
