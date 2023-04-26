@@ -5,28 +5,36 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
+  console.log("accessToken", accessToken, typeof accessToken)
 
   const [currentUser, setCurrentUser] = useState({});
   const [accommodations, setAccomodations] = useState([]);
 
   const fetchUser = async () => {
+    console.log("accessToken within the fetchUser", accessToken);
     const response = await fetch("http://localhost:3001/users/me", {
       headers: {
-        authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
     });
+    console.log("response within the fetchUser", response);
     const data = await response.json();
+    console.log("data within the fetchUser", data);
     setCurrentUser(data);
   };
-
+    
   const fetchAccommodations = async () => {
+    console.log("accessToken within the fetchAccommodations", accessToken);
     const response = await fetch("http://localhost:3001/accommodations", {
       headers: {
-        authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
     });
+    console.log("response within the fetchAccommodations", response);
     const data = await response.json();
-    console.log(data);
+    console.log("data within the fetchAccommodations", data);
     setAccomodations(data);
   };
 

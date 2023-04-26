@@ -6,31 +6,16 @@ import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
-
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const handleChange = (event) => {
-    setCredentials({
-      ...credentials,
-      [event.target.name]: event.target.value,
-    });
+    const { name, value } = event.target;
+    setCredentials((prevCredentials) => ({
+      ...prevCredentials,
+      [name]: value,
+    }));
   };
-
-  const handleRegister = async () => {
-    const response = await fetch("http://localhost:3001/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
-    const data = await response.text();
-    setCredentials({ email: "", password: "" });
-    localStorage.setItem("accessToken", data);
-    toast("Regsiter successfull! 💪", { autoClose: 1000 });
-    navigate("/home");
-  };
-
+  
   const handleLogin = async () => {
     const response = await fetch("http://localhost:3001/users/login", {
       method: "POST",
@@ -39,11 +24,19 @@ function Login() {
       },
       body: JSON.stringify(credentials),
     });
-    const data = await response.text();
-    setCredentials({ email: "", password: "" });
-    localStorage.setItem("accessToken", data);
-    toast("Login successfull! 💪", { autoClose: 3000 });
-    navigate("/home");
+    if (response.ok) {
+      const data = await response.text();
+      localStorage.setItem("accessToken", data);
+      toast("Login successful! 💪", { autoClose: 3000 });
+      navigate("/home");
+    } else {
+      toast("Login failed! 😢", { autoClose: 3000 });
+    }
+  };
+  
+
+  const handleRegister = async () => {
+    navigate("/register");
   };
 
   return (
@@ -87,3 +80,9 @@ function Login() {
 }
 
 export default Login;
+
+/*
+
+
+
+*/
